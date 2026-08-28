@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin Albifest 2027</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header class="admin-header">
+        <div>
+            <p class="eyebrow">ALBIFEST 2027</p>
+            <h1>Dashboard Admin Albifest 2027</h1>
+            <p class="muted">Manajemen Data Pendaftaran Peserta</p>
+        </div>
+        <button id="logoutButton" class="button secondary">Logout</button>
+    </header>
+
+    <main class="admin-main">
+        <div id="pageMessage" class="message" role="alert"></div>
+
+        <section class="stats-grid" aria-label="Statistik pendaftaran">
+            <article class="stat-card"><span>Total Pendaftar</span><strong id="totalCount">0</strong></article>
+            <article class="stat-card pending"><span>Menunggu Verifikasi</span><strong id="pendingCount">0</strong></article>
+            <article class="stat-card verified"><span>Terverifikasi</span><strong id="verifiedCount">0</strong></article>
+            <article class="stat-card rejected"><span>Ditolak</span><strong id="rejectedCount">0</strong></article>
+        </section>
+
+        <section class="toolbar">
+            <input id="searchInput" type="search" placeholder="🔍 Cari peserta...">
+            <select id="competitionFilter"><option value="">Semua Lomba</option></select>
+            <select id="statusFilter">
+                <option value="">Semua Status</option>
+                <option value="menunggu">Menunggu</option>
+                <option value="terverifikasi">Terverifikasi</option>
+                <option value="ditolak">Ditolak</option>
+            </select>
+            <button id="refreshButton" class="button secondary">🔄 Refresh</button>
+            <button id="exportButton" class="button primary">📥 Export Excel</button>
+        </section>
+
+        <section class="table-panel">
+            <div class="table-scroll">
+                <table>
+                    <thead><tr>
+                        <th>No</th><th>Nomor Pendaftaran</th><th>Nama Peserta / Nama Tim</th>
+                        <th>Jenis Lomba</th><th>Kategori</th><th>Asal Instansi</th>
+                        <th>Kabupaten/Kota</th><th>WhatsApp</th><th>Nama Pembina</th>
+                        <th>Bukti Transfer</th><th>Status Pembayaran</th><th>Aksi</th>
+                    </tr></thead>
+                    <tbody id="participantTableBody"><tr><td colspan="12" class="empty">Memuat data...</td></tr></tbody>
+                </table>
+            </div>
+            <div class="pagination">
+                <button id="previousPage" class="button secondary">← Sebelumnya</button>
+                <span id="pageIndicator">Halaman 1</span>
+                <button id="nextPage" class="button secondary">Berikutnya →</button>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

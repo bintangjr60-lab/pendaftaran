@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pendaftaran Albifest 2027</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<header class="header">
+    <div class="container header-content">
+
+        <!-- 🔴 UBAH DI SINI: LOGO ALBIFEST -->
+<div class="brand">
+
+    <img
+        src="logo-albifest.jpeg"
+        alt="Logo Albifest"
+        class="logo"
+    >
+
+    <div>
+        <h2>albifest</h2>
+        <span>2027</span>
+    </div>
+
+</div>
+
+    </div>
+</header>
+
+
+<main class="container">
+
+    <!-- PROGRESS -->
+    <div class="progress-wrapper">
+
+        <div class="progress-step active" data-step="1">
+            <span>1</span>
+            <p>Data Peserta</p>
+        </div>
+
+        <div class="progress-line"></div>
+
+        <div class="progress-step" data-step="2">
+            <span>2</span>
+            <p>Data Lomba</p>
+        </div>
+
+        <div class="progress-line"></div>
+
+        <div class="progress-step" data-step="3">
+            <span>3</span>
+            <p>Pembayaran</p>
+        </div>
+
+        <div class="progress-line"></div>
+
+        <div class="progress-step" data-step="4">
+            <span>4</span>
+            <p>Konfirmasi</p>
+        </div>
+
+    </div>
+
+
+    <form id="registrationForm">
+
+
+        <!-- ================================= -->
+        <!-- STEP 1 -->
+        <!-- ================================= -->
+
+        <section class="form-step active" id="step1">
+
+            <div class="page-title">
+                <span class="small-label">ALBIFEST 2027</span>
+
+                <h1>Pendaftaran Peserta</h1>
+
+                <p>
+                    Silakan lengkapi data pendaftaran dengan benar.
+                    Data yang telah dikirim akan digunakan oleh panitia.
+                </p>
+            </div>
+
+
+            <div class="card">
+
+                <h3>Cabang Lomba</h3>
+
+                <p class="description">
+                    Pilih satu cabang lomba yang akan diikuti.
+                </p>
+
+
+                <div class="competition-grid">
+
+                    <label class="competition-card">
+
+                        <input
+                            type="radio"
+                            name="competition"
+                            value="Pidato SD/MI/Sederajat"
+                            data-type="individual"
+                            required
+                        >
+
+                        <div class="competition-content">
+                            <div class="competition-icon">🗣️</div>
+
+                            <div>
+                                <strong>Pidato</strong>
+                                <small>SD/MI/Sederajat</small>
+                            </div>
+                        </div>
+
+                    </label>
+
+
+                    <label class="competition-card">
+
+                        <input
+                            type="radio"
+                            name="competition"
+                            value="Pidato MTs/SMP/Sederajat"
+                            data-type="individual"
+                        >
+
+                        <div class="competition-content">
+                            <div class="competition-icon">🎤</div>
+
+                            <div>
+                                <strong>Pidato</strong>
+                                <small>MTs/SMP/Sederajat</small>
+                            </div>
+                        </div>
+
+                    </label>
+
+
+                    <label class="competition-card">
+
+                        <input
+                            type="radio"
+                            name="competition"
+                            value="LCC MTs/SMP/Sederajat"
+                            data-type="team"
+                        >
+
+                        <div class="competition-content">
+                            <div class="competition-icon">🧠</div>
+
+                            <div>
+                                <strong>LCC</strong>
+                                <small>MTs/SMP/Sederajat</small>
+                            </div>
+                        </div>
+
+                    </label>
+
+
+                    <label class="competition-card">
+
+                        <input
+                            type="radio"
+                            name="competition"
+                            value="Mewarnai RA/TK"
+                            data-type="individual"
+                        >
+
+                        <div class="competition-content">
+                            <div class="competition-icon">🎨</div>
+
+                            <div>
+                                <strong>Mewarnai</strong>
+                                <small>RA/TK</small>
+                            </div>
+                        </div>
+
+                    </label>
+
+
+                    <label class="competition-card">
+
+                        <input
+                            type="radio"
+                            name="competition"
+                            value="Kaligrafi SMP/MTs/Sederajat"
+                            data-type="individual"
+                        >
+
+                        <div class="competition-content">
+                            <div class="competition-icon">✒️</div>
+
+                            <div>
+                                <strong>Kaligrafi</strong>
+                                <small>SMP/MTs/Sederajat</small>
+                            </div>
+                        </div>
+
+                    </label>
+
+
+                    <label class="competition-card">
+
+                        <input
+                            type="radio"
+                            name="competition"
+                            value="Kaligrafi MA/SMA/Sederajat"
+                            data-type="individual"
+                        >
+
+                        <div class="competition-content">
+                            <div class="competition-icon">🖋️</div>
+
+                            <div>
+                                <strong>Kaligrafi</strong>
+                                <small>MA/SMA/Sederajat</small>
+                            </div>
+                        </div>
+
+                    </label>
+
+
+                    <label class="competition-card">
+
+                        <input
+                            type="radio"
+                            name="competition"
+                            value="Hadroh Habsy - Umum se-Jawa Barat"
+                            data-type="team"
+                        >
+
+                        <div class="competition-content">
+                            <div class="competition-icon">🥁</div>
+
+                            <div>
+                                <strong>Hadroh Habsy</strong>
+                                <small>Umum se-Jawa Barat</small>
+                            </div>
+                        </div>
+
+                    </label>
+
+
+                    <label class="competition-card">
+
+                        <input
+                            type="radio"
+                            name="competition"
+                            value="Hadroh Banjari - Umum se-Jawa Barat"
+                            data-type="team"
+                        >
+
+                        <div class="competition-content">
+                            <div class="competition-icon">🥁</div>
+
+                            <div>
+                                <strong>Hadroh Banjari</strong>
+                                <small>Umum se-Jawa Barat</small>
+                            </div>
+                        </div>
+
+                    </label>
+
+
+                    <label class="competition-card">
+
+                        <input
+                            type="radio"
+                            name="competition"
+                            value="Bazar Albifest 2027"
+                            data-type="bazaar"
+                        >
+
+                        <div class="competition-content">
+                            <div class="competition-icon">🛍️</div>
+
+                            <div>
+                                <strong>Bazar</strong>
+                                <small>Albifest 2027</small>
+                            </div>
+                        </div>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Data Peserta / Tim</h3>
+
+                <div id="individualFields">
+
+                    <div class="form-group">
+                        <label>Nama Lengkap Peserta <span>*</span></label>
+
+                        <input
+                            type="text"
+                            id="participantName"
+                            placeholder="Masukkan nama lengkap"
+                        >
+                    </div>
+
+                </div>
+
+
+                <div id="teamFields" class="hidden">
+
+                    <div class="form-group">
+
+                        <label>Nama Tim / Grup <span>*</span></label>
+
+                        <input
+                            type="text"
+                            id="teamName"
+                            placeholder="Masukkan nama tim/grup"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Nama Ketua Tim <span>*</span></label>
+
+                        <input
+                            type="text"
+                            id="leaderName"
+                            placeholder="Masukkan nama ketua tim"
+                        >
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Jumlah Anggota <span>*</span></label>
+
+                        <input
+                            type="number"
+                            id="memberCount"
+                            min="1"
+                            max="30"
+                            placeholder="Contoh: 5"
+                        >
+
+                    </div>
+
+                    <div id="membersContainer"></div>
+
+                </div>
+
+
+                <div id="bazaarFields" class="hidden">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>Nama Brand <span>*</span></label>
+
+                            <input
+                                type="text"
+                                id="brandName"
+                                placeholder="Masukkan nama brand"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Produk yang Dijual <span>*</span></label>
+
+                            <input
+                                type="text"
+                                id="productName"
+                                placeholder="Contoh: makanan atau kerajinan"
+                            >
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>Nomor Sertifikat Halal <small>(opsional)</small></label>
+
+                            <input
+                                type="text"
+                                id="halalCertificate"
+                                placeholder="Boleh dikosongkan"
+                            >
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Nomor WhatsApp <span>*</span></label>
+
+                            <input
+                                type="tel"
+                                id="bazaarWhatsapp"
+                                placeholder="08xxxxxxxxxx"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card" id="institutionCard">
+
+                <h3>Asal Instansi</h3>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Nama Sekolah / Pesantren / Instansi <span>*</span></label>
+
+                        <input
+                            type="text"
+                            id="institution"
+                            placeholder="Masukkan nama instansi"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Kabupaten / Kota <span>*</span></label>
+
+                        <input
+                            type="text"
+                            id="city"
+                            placeholder="Contoh: Bandung"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card" id="coachContactCard">
+
+                <h3>Kontak Pembina / Pendamping</h3>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Nama Pembina / Pendamping <span>*</span></label>
+
+                        <input
+                            type="text"
+                            id="coachName"
+                            placeholder="Nama pembina"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>Nomor WhatsApp <span>*</span></label>
+
+                        <input
+                            type="tel"
+                            id="whatsapp"
+                            placeholder="08xxxxxxxxxx"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    type="button"
+                    class="btn primary"
+                    id="nextStep1"
+                >
+                    Lanjutkan
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- STEP 2 -->
+        <!-- ================================= -->
+
+        <section class="form-step" id="step2">
+
+            <div class="page-title">
+
+                <span class="small-label">STEP 2</span>
+
+                <h1>Data Lomba</h1>
+
+                <p>
+                    Lengkapi informasi sesuai cabang lomba yang dipilih.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="selected-competition">
+
+                    <span>Cabang Lomba</span>
+
+                    <strong id="selectedCompetition">
+                        -
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="card" id="competitionDetails">
+
+                <h3>Informasi Tambahan</h3>
+
+                <div class="form-group">
+
+                    <label>Catatan untuk Panitia</label>
+
+                    <textarea
+                        id="notes"
+                        rows="5"
+                        placeholder="Jika ada informasi tambahan, tuliskan di sini..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    type="button"
+                    class="btn secondary"
+                    data-back="1"
+                >
+                    ← Kembali
+                </button>
+
+                <button
+                    type="button"
+                    class="btn primary"
+                    id="nextStep2"
+                >
+                    Lanjutkan →
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- STEP 3 -->
+        <!-- ================================= -->
+
+        <section class="form-step" id="step3">
+
+            <div class="page-title">
+
+                <span class="small-label">STEP 3</span>
+
+                <h1>Pembayaran</h1>
+
+                <p>
+                    Silakan lakukan pembayaran melalui rekening bank atau e-wallet berikut.
+                </p>
+
+            </div>
+
+
+            <div class="card payment-card">
+
+                <div class="payment-title">
+
+                    <div class="payment-icon">💳</div>
+
+                    <div>
+
+                        <h3>Informasi Pembayaran</h3>
+
+                        <p>
+                            Gunakan rekening atau e-wallet resmi panitia Albifest 2027.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="rekening">
+
+                    <div>
+
+                        <span>Bank</span>
+
+                        <strong>BSI</strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>Nomor Rekening</span>
+
+                        <strong id="accountNumber">
+                            7368458346
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>Atas Nama</span>
+
+                        <strong>Hanhan Salsabila</strong>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="copy-btn"
+                    id="copyAccount"
+                >
+                    📋 Salin Nomor Rekening
+                </button>
+
+                <div class="rekening ewallet">
+
+                    <div>
+
+                        <span>E-Wallet</span>
+
+                        <strong>DANA</strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>Nomor DANA</span>
+
+                        <strong id="danaNumber">
+                            0853-5350-8800
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>Atas Nama</span>
+
+                        <strong>Hanhan Salsabila</strong>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="copy-btn"
+                    id="copyDana"
+                >
+                    📋 Salin Nomor DANA
+                </button>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Bukti Transfer</h3>
+
+                <p class="description">
+                    Bukti transfer <strong>wajib</strong> diupload.
+                </p>
+
+
+                <div class="upload-area">
+
+                    <input
+                        type="file"
+                        id="transferProof"
+                        accept=".jpg,.jpeg,.png,.pdf"
+                        required
+                    >
+
+                    <div class="upload-icon">
+                        📎
+                    </div>
+
+                    <strong>
+                        Pilih bukti transfer
+                    </strong>
+
+                    <small>
+                        JPG, JPEG, PNG atau PDF — maksimal 5 MB
+                    </small>
+
+                </div>
+
+
+                <div id="filePreview" class="file-preview hidden"></div>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    type="button"
+                    class="btn secondary"
+                    data-back="2"
+                >
+                    ← Kembali
+                </button>
+
+                <button
+                    type="button"
+                    class="btn primary"
+                    id="nextStep3"
+                >
+                    Lanjutkan →
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================= -->
+        <!-- STEP 4 -->
+        <!-- ================================= -->
+
+        <section class="form-step" id="step4">
+
+            <div class="page-title">
+
+                <span class="small-label">STEP 4</span>
+
+                <h1>Konfirmasi Pendaftaran</h1>
+
+                <p>
+                    Periksa kembali data Anda sebelum mengirim pendaftaran.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div id="summary"></div>
+
+            </div>
+
+
+            <div class="confirm-box">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        id="agreement"
+                    >
+
+                    <span>
+                        Saya menyatakan bahwa data yang saya masukkan
+                        sudah benar dan dapat dipertanggungjawabkan.
+                    </span>
+
+                </label>
+
+            </div>
+
+
+            <div class="button-row">
+
+                <button
+                    type="button"
+                    class="btn secondary"
+                    data-back="3"
+                >
+                    ← Kembali
+                </button>
+
+                <button
+                    type="submit"
+                    class="btn primary"
+                >
+                    ✓ Kirim Pendaftaran
+                </button>
+
+            </div>
+
+        </section>
+
+    </form>
+
+
+
+    <!-- ================================= -->
+    <!-- SUCCESS -->
+    <!-- ================================= -->
+
+    <section class="success-page hidden" id="successPage">
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+        <span class="small-label">
+            PENDAFTARAN BERHASIL
+        </span>
+
+        <h1>
+            Terima Kasih!
+        </h1>
+
+        <p>
+            Pendaftaran Albifest 2027 berhasil dikirim.
+        </p>
+
+
+        <div class="registration-number">
+
+            <span>Nomor Pendaftaran Anda</span>
+
+            <strong id="registrationNumber">
+                ALB-2027-00001
+            </strong>
+
+        </div>
+
+
+        <p class="important">
+            Simpan nomor pendaftaran ini untuk melakukan pengecekan
+            status pendaftaran.
+        </p>
+
+
+        <button
+            type="button"
+            class="btn primary"
+            onclick="location.reload()"
+        >
+            Kembali ke Beranda
+        </button>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <div class="container">
+
+        <strong>albifest 2027</strong>
+
+        <span>
+            Berkarya • Berprestasi • Menginspirasi
+        </span>
+
+    </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

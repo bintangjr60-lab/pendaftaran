@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin Albifest 2027</title>
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="login-page">
+    <main class="login-card">
+        <div class="brand-mark">A</div>
+        <p class="eyebrow">ALBIFEST 2027</p>
+        <h1>Login Admin</h1>
+        <p class="muted">Masuk untuk mengelola data pendaftaran peserta.</p>
+
+        <form id="loginForm">
+            <label for="email">Email</label>
+            <input id="email" type="email" autocomplete="username" required>
+
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="current-password" required>
+
+            <button class="button primary" type="submit">Login</button>
+            <p id="loginMessage" class="message" role="alert"></p>
+        </form>
+    </main>
+    <script src="admin.js"></script>
+</body>
+</html>
