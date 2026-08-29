@@ -1,11 +1,81 @@
 const SUPABASE_URL = "https://pnpbmqkygoywtgyebojg.supabase.co";
 const SUPABASE_KEY = "sb_publishable_OpKvD_Opkxdfrn_pihIpIQ_lkEcSXmL";
+const STORAGE_BUCKET = "bukti-transfer";
 
 const supabaseClient = supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
 let currentStep = 1;
+
+// ============================================
+// LINK GRUP WHATSAPP
+// EDIT LINK DI BAGIAN INI
+// ============================================
+const whatsappGroups = {
+    "Pidato SD/MI/Sederajat": "https://chat.whatsapp.com/D78EPxmTvnLAvdHW1aFAT8?s=cl&p=a&mlu=0",
+    "Pidato MTs/SMP/Sederajat": "https://chat.whatsapp.com/GgqsylNb1Fr7EsHyZq7dLn?s=cl&p=a&mlu=0",
+    "LCC MTs/SMP/Sederajat": "https://chat.whatsapp.com/DzvPlItKAIO4wlsP9UZGiH?s=cl&p=a&mlu=0",
+    "Mewarnai RA/TK": "https://chat.whatsapp.com/GyTHVzULUl53Q6TbnmbTia?s=cl&p=a&mlu=0",
+    "Kaligrafi SMP/MTs/Sederajat": "https://chat.whatsapp.com/I1OherxeQjQ4tp3MvelPwv?s=cl&p=a&mlu=0",
+    "Kaligrafi MA/SMA/Sederajat": "https://chat.whatsapp.com/JY7nwMEYHoL8cg92mjNQbB?s=cl&p=a&mlu=0",
+    "Hadroh Habsy - Umum se-Jawa Barat": "https://chat.whatsapp.com/I1tUpdQgrnT73ZFtEkhdU5?s=cl&p=a&mlu=0",
+    "Hadroh Banjari - Umum se-Jawa Barat": "https://chat.whatsapp.com/KiNKys51FpHGRKSJYam4ml?s=cl&p=a&mlu=0",
+    "Bazar Albifest 2027": "https://chat.whatsapp.com/GOaQjV0OlLb0t2cPCgu4Cu?s=cl&p=a&mlu=0"
+};
+
+function getSelectedCompetitionValue() {
+    const selected = document.querySelector('input[name="competition"]:checked');
+    return selected ? selected.value.trim() : null;
+}
+
+function getWhatsappGroupLink() {
+    const competitionValue = getSelectedCompetitionValue();
+
+    if (!competitionValue) {
+        return null;
+    }
+
+    const groupLink = whatsappGroups[competitionValue];
+
+    if (!groupLink || typeof groupLink !== "string") {
+        return null;
+    }
+
+    if (groupLink.startsWith("LINK_GRUP_")) {
+        return null;
+    }
+
+    return groupLink;
+}
+
+function renderWhatsappGroupButton() {
+    const container = document.getElementById("successWhatsAppContainer");
+
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    const groupLink = getWhatsappGroupLink();
+
+    if (!groupLink) {
+        const status = document.createElement("p");
+        status.className = "whatsapp-status";
+        status.textContent = "Link grup WhatsApp untuk kategori ini belum tersedia. Silakan hubungi panitia.";
+        container.appendChild(status);
+        return;
+    }
+
+    const link = document.createElement("a");
+    link.href = groupLink;
+    link.className = "btn primary whatsapp-btn";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "💬 GABUNG GRUP WHATSAPP";
+    container.appendChild(link);
+}
 
 const form = document.getElementById("registrationForm");
 
@@ -749,9 +819,16 @@ form.addEventListener("submit", async function (event) {
     }
 
     const type = selected.dataset.type;
+
+    if (!(file instanceof File)) {
+        alert("File bukti transfer tidak valid. Silakan pilih file lagi.");
+        return;
+    }
+
     const number = generateRegistrationNumber();
     const originalName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-    const filePath = `${number}-${Date.now()}-${originalName}`;
+    const safeOriginalName = originalName || "bukti-transfer";
+    const filePath = `${number}-${Date.now()}-${safeOriginalName}`;
 
     const participantName = type === "individual"
         ? document.getElementById("participantName").value.trim()
@@ -784,8 +861,11 @@ form.addEventListener("submit", async function (event) {
 
     try {
         const uploadResult = await supabaseClient.storage
-            .from("bukti-transfer")
-            .upload(filePath, file, { upsert: false });
+            .from(STORAGE_BUCKET)
+            .upload(filePath, file, {
+                cacheControl: "3600",
+                upsert: false
+            });
 
         if (uploadResult.error) {
             alert(`Upload bukti transfer gagal: ${uploadResult.error.message}`);
@@ -816,7 +896,7 @@ form.addEventListener("submit", async function (event) {
             nama_pembina: type === "bazaar"
                 ? null
                 : document.getElementById("coachName").value.trim(),
-            anggota_tim: members,
+            anggota_tim: members.length ? members.join(", ") : null,
             bukti_transfer: filePath,
             status_pembayaran: "menunggu",
             nama_tim: teamName || null,
@@ -833,6 +913,10 @@ form.addEventListener("submit", async function (event) {
             catatan: registrationNotes || null
         };
 
+        console.log("=== DATA PESERTA YANG AKAN DIKIRIM ===");
+        console.log(JSON.stringify(registrationData, null, 2));
+        console.log("=== END DATA PESERTA ===");
+
         let insertResult = await supabaseClient
             .from("peserta")
             .insert(registrationData);
@@ -847,12 +931,32 @@ form.addEventListener("submit", async function (event) {
         }
 
         if (insertResult.error) {
-            await supabaseClient.storage.from("bukti-transfer").remove([filePath]);
+            console.error("=== SUPABASE INSERT ERROR ===");
+            console.error("message:", insertResult.error.message);
+            console.error("code:", insertResult.error.code);
+            console.error("details:", insertResult.error.details);
+            console.error("hint:", insertResult.error.hint);
+            console.error("payload:", registrationData);
+            console.error("=== END SUPABASE ERROR ===");
+
+            await supabaseClient.storage.from(STORAGE_BUCKET).remove([filePath]);
             alert(`Data pendaftaran gagal disimpan: ${insertResult.error.message}`);
             return;
         }
     } catch (error) {
-        await supabaseClient.storage.from("bukti-transfer").remove([filePath]);
+        console.error("SUPABASE SUBMIT CATCH ERROR:", {
+            message: error.message,
+            code: error.code,
+            details: error.details,
+            hint: error.hint,
+            payload: {
+                number,
+                filePath,
+                fileName: file.name
+            }
+        });
+
+        await supabaseClient.storage.from(STORAGE_BUCKET).remove([filePath]);
         alert(`Pendaftaran gagal diproses: ${error.message}`);
         return;
     }
@@ -861,6 +965,8 @@ form.addEventListener("submit", async function (event) {
     form.classList.add("hidden");
     document.querySelector(".progress-wrapper").classList.add("hidden");
     document.getElementById("successPage").classList.remove("hidden");
+
+    renderWhatsappGroupButton();
 
     localStorage.setItem("albifest_registration_number", number);
 

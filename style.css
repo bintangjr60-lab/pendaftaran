@@ -72,15 +72,20 @@ body::before {
 .brand {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 auto;
 }
 
 .logo {
-    width: 36px;
-    height: 36px;
+    width: 56px;
+    height: 56px;
     object-fit: contain;
     display: block;
-    border-radius: 8px;
+    border-radius: 14px;
+    background: #ffffff;
+    padding: 4px;
+    box-shadow: 0 0 0 1px rgba(16, 45, 76, 0.08);
 }
 
 .brand-icon {
@@ -96,16 +101,29 @@ body::before {
     font-size: 15px;
 }
 
+.brand-text {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    white-space: nowrap;
+}
+
 .brand h2 {
-    font-size: 17px;
+    font-size: 30px;
     line-height: 1;
     color: var(--green);
+    letter-spacing: -0.05em;
+    margin: 0;
+    font-weight: 800;
 }
 
 .brand span {
-    font-size: 9px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 800;
     color: var(--gold);
+    letter-spacing: 0.12em;
+    line-height: 1;
+    transform: translateY(-2px);
 }
 
 .header-text {
@@ -670,6 +688,32 @@ textarea:focus {
     margin-bottom: 25px;
 }
 
+.whatsapp-message {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+.success-whatsapp-container {
+    margin: 12px 0 20px;
+}
+
+.whatsapp-status {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin-top: 6px;
+}
+
 
 /* FOOTER */
 
@@ -763,8 +807,17 @@ footer span {
         gap: 5px;
     }
     .logo {
-    width: 30px;
-    height: 30px;
+    width: 42px;
+    height: 42px;
     object-fit: contain;
+    padding: 3px;
 }
+
+    .brand h2 {
+        font-size: 20px;
+    }
+
+    .brand span {
+        font-size: 10px;
+    }
 }
