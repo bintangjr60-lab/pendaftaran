@@ -11,6 +11,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        if (new URLSearchParams(window.location.hash.slice(1)).get("type") === "recovery") {
+            window.location.replace("admin-login.html" + window.location.search + window.location.hash);
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -33,6 +38,8 @@
     </div>
 
 </div>
+
+        <a class="admin-login-link" href="admin-login.html">Login Admin</a>
 
     </div>
 </header>

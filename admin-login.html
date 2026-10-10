@@ -19,10 +19,30 @@
             <input id="email" type="email" autocomplete="username" required>
 
             <label for="password">Password</label>
-            <input id="password" type="password" autocomplete="current-password" required>
+            <div class="password-field">
+                <input id="password" type="password" autocomplete="current-password" required>
+                <button class="password-toggle" type="button" data-toggle-password="password" aria-controls="password" aria-pressed="false">Lihat</button>
+            </div>
 
             <button class="button primary" type="submit">Login</button>
             <p id="loginMessage" class="message" role="alert"></p>
+        </form>
+
+        <form id="recoveryForm" hidden>
+            <label for="newPassword">Password baru</label>
+            <div class="password-field">
+                <input id="newPassword" type="password" autocomplete="new-password" minlength="8" required>
+                <button class="password-toggle" type="button" data-toggle-password="newPassword" aria-controls="newPassword" aria-pressed="false">Lihat</button>
+            </div>
+
+            <label for="confirmPassword">Ulangi password baru</label>
+            <div class="password-field">
+                <input id="confirmPassword" type="password" autocomplete="new-password" minlength="8" required>
+                <button class="password-toggle" type="button" data-toggle-password="confirmPassword" aria-controls="confirmPassword" aria-pressed="false">Lihat</button>
+            </div>
+
+            <button class="button primary" type="submit">Simpan Password Baru</button>
+            <p id="recoveryMessage" class="message" role="alert"></p>
         </form>
     </main>
     <script src="admin.js"></script>

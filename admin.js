@@ -15,8 +15,28 @@ async function requireSession() {
 }
 
 if (isLoginPage) {
+    document.querySelectorAll("[data-toggle-password]").forEach(toggle => {
+        toggle.addEventListener("click", () => {
+            const input = document.getElementById(toggle.dataset.togglePassword);
+            const isVisible = input.type === "password";
+            input.type = isVisible ? "text" : "password";
+            toggle.textContent = isVisible ? "Sembunyikan" : "Lihat";
+            toggle.setAttribute("aria-pressed", String(isVisible));
+        });
+    });
+
     const loginForm = document.getElementById("loginForm");
     const loginMessage = document.getElementById("loginMessage");
+    const recoveryForm = document.getElementById("recoveryForm");
+    const isRecovery = new URLSearchParams(window.location.hash.slice(1)).get("type") === "recovery";
+
+    if (isRecovery && recoveryForm) {
+        loginForm.hidden = true;
+        recoveryForm.hidden = false;
+        document.querySelector(".login-card h1").textContent = "Buat Password Baru";
+        document.querySelector(".login-card .muted").textContent = "Masukkan password baru untuk akun admin Anda.";
+    }
+
     loginForm.addEventListener("submit", async event => {
         event.preventDefault();
         loginMessage.textContent = "Memproses login...";
@@ -28,6 +48,28 @@ if (isLoginPage) {
             loginMessage.textContent = "Login gagal. Periksa email dan password Anda.";
             return;
         }
+        window.location.href = "admin.html";
+    });
+
+    recoveryForm?.addEventListener("submit", async event => {
+        event.preventDefault();
+        const recoveryMessage = document.getElementById("recoveryMessage");
+        const password = document.getElementById("newPassword").value;
+        const confirmation = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmation) {
+            recoveryMessage.textContent = "Kedua password tidak sama.";
+            return;
+        }
+
+        recoveryMessage.textContent = "Menyimpan password baru...";
+        const { error } = await supabaseClient.auth.updateUser({ password });
+        if (error) {
+            console.error(error);
+            recoveryMessage.textContent = "Password gagal diperbarui. Minta tautan recovery baru.";
+            return;
+        }
+
         window.location.href = "admin.html";
     });
 } else {

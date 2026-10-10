@@ -22,6 +22,10 @@ h1 { margin: 0; color: var(--navy); font-size: clamp(24px, 4vw, 32px); }
 label { display: block; color: var(--navy); font-size: 13px; font-weight: 700; margin: 16px 0 7px; }
 input, select { min-width: 0; width: 100%; border: 1px solid var(--border); border-radius: 9px; background: #fff; color: var(--text); padding: 12px; font: inherit; }
 input:focus, select:focus { outline: 3px solid #16844718; border-color: var(--green); }
+.password-field { position: relative; }
+.password-field input { padding-right: 82px; }
+.password-toggle { position: absolute; top: 50%; right: 8px; transform: translateY(-50%); border: 0; padding: 6px; color: var(--green-dark); background: transparent; font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; }
+.password-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; border-radius: 4px; }
 .button { border: 0; border-radius: 9px; padding: 11px 15px; cursor: pointer; font: inherit; font-size: 13px; font-weight: 700; white-space: nowrap; }
 .button.primary { color: #fff; background: var(--green); }
 .button.primary:hover { background: var(--green-dark); }
