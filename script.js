@@ -885,7 +885,7 @@ form.addEventListener("submit", async function (event) {
             jenis_lomba: selected.value,
             kategori: type,
             asal_instansi: type === "bazaar"
-                ? null
+                ? document.getElementById("brandName").value.trim()
                 : document.getElementById("institution").value.trim(),
             kabupaten_kota: type === "bazaar"
                 ? null
