@@ -237,6 +237,10 @@ competitionInputs.forEach(input => {
                 .setAttribute("required", "");
 
             document
+                .getElementById("bazaarCity")
+                .setAttribute("required", "");
+
+            document
                 .getElementById("coachName")
                 .removeAttribute("required");
 
@@ -265,6 +269,7 @@ competitionInputs.forEach(input => {
             document.getElementById("brandName").removeAttribute("required");
             document.getElementById("productName").removeAttribute("required");
             document.getElementById("bazaarWhatsapp").removeAttribute("required");
+            document.getElementById("bazaarCity").removeAttribute("required");
         }
 
     });
@@ -401,9 +406,12 @@ document
             const bazaarWhatsapp =
                 document.getElementById("bazaarWhatsapp").value.trim();
 
-            if (!brandName || !productName || !bazaarWhatsapp || !isValidWhatsapp(bazaarWhatsapp)) {
+            const bazaarCity =
+                document.getElementById("bazaarCity").value.trim();
 
-                alert("Nama brand dan produk wajib diisi, serta nomor WhatsApp harus valid.");
+            if (!brandName || !productName || !bazaarCity || !bazaarWhatsapp || !isValidWhatsapp(bazaarWhatsapp)) {
+
+                alert("Nama brand, produk, dan kabupaten/kota usaha wajib diisi, serta nomor WhatsApp harus valid.");
 
                 return;
             }
@@ -699,6 +707,11 @@ function showSummary() {
             </div>
 
             <div class="summary-item">
+                <span>Kabupaten / Kota Usaha</span>
+                <strong>${document.getElementById("bazaarCity").value}</strong>
+            </div>
+
+            <div class="summary-item">
                 <span>Sertifikat Halal</span>
                 <strong>${document.getElementById("halalCertificate").value || "Tidak dicantumkan"}</strong>
             </div>
@@ -852,6 +865,7 @@ form.addEventListener("submit", async function (event) {
             (type === "bazaar" && (
             !document.getElementById("brandName").value.trim() ||
             !document.getElementById("productName").value.trim() ||
+            !document.getElementById("bazaarCity").value.trim() ||
             !bazaarWhatsapp || !isValidWhatsapp(bazaarWhatsapp)
         ))
     ) {
@@ -888,7 +902,7 @@ form.addEventListener("submit", async function (event) {
                 ? document.getElementById("brandName").value.trim()
                 : document.getElementById("institution").value.trim(),
             kabupaten_kota: type === "bazaar"
-                ? null
+                ? document.getElementById("bazaarCity").value.trim()
                 : document.getElementById("city").value.trim(),
             no_whatsapp: type === "bazaar"
                 ? bazaarWhatsapp
