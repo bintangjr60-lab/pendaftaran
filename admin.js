@@ -117,6 +117,12 @@ if (isLoginPage) {
         window.open(data.signedUrl, "_blank", "noopener");
     }
 
+    async function downloadProof(path) {
+        const { data, error } = await supabaseClient.storage.from("bukti-transfer").createSignedUrl(path, 300, { download: true });
+        if (error || !data?.signedUrl) { console.error(error); message("Gagal mengunduh bukti transfer."); return; }
+        window.location.href = data.signedUrl;
+    }
+
     async function updateStatus(id, status) {
         const { error } = await supabaseClient.from("peserta").update({ status_pembayaran: status }).eq("id", id);
         if (error) { console.error(error); message("Gagal mengubah status pembayaran."); return; }
@@ -133,7 +139,7 @@ if (isLoginPage) {
             makeCell(row, value(participant, "nama_peserta", "nama_tim", "nama_brand")); makeCell(row, participant.jenis_lomba); makeCell(row, participant.kategori);
             makeCell(row, participant.asal_instansi); makeCell(row, participant.kabupaten_kota); makeCell(row, participant.no_whatsapp); makeCell(row, participant.nama_pembina);
             const proof = makeCell(row, "");
-            if (participant.bukti_transfer) { proof.textContent = ""; const button = document.createElement("button"); button.className = "button secondary"; button.textContent = "Lihat Bukti"; button.addEventListener("click", () => viewProof(participant.bukti_transfer)); proof.appendChild(button); } else proof.textContent = "-";
+            if (participant.bukti_transfer) { proof.textContent = ""; const viewButton = document.createElement("button"); viewButton.className = "button secondary"; viewButton.textContent = "Lihat Bukti"; viewButton.addEventListener("click", () => viewProof(participant.bukti_transfer)); proof.appendChild(viewButton); const downloadButton = document.createElement("button"); downloadButton.className = "button secondary"; downloadButton.textContent = "Unduh"; downloadButton.addEventListener("click", () => downloadProof(participant.bukti_transfer)); proof.appendChild(downloadButton); } else proof.textContent = "-";
             const status = makeCell(row, ""); const badge = document.createElement("span"); badge.className = `status ${participant.status_pembayaran || "menunggu"}`; badge.textContent = formatValue(participant.status_pembayaran); status.appendChild(badge);
             const actions = makeCell(row, ""); actions.className = "actions";
             if (participant.id !== undefined && participant.status_pembayaran !== "terverifikasi") { const button = document.createElement("button"); button.className = "button primary"; button.textContent = "✓ Verifikasi"; button.addEventListener("click", () => updateStatus(participant.id, "terverifikasi")); actions.appendChild(button); }
