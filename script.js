@@ -160,6 +160,10 @@ competitionInputs.forEach(input => {
         bazaarFields.classList.toggle("hidden", type !== "bazaar");
         coachContactCard.classList.toggle("hidden", type === "bazaar");
         institutionCard.classList.toggle("hidden", type === "bazaar");
+        document.getElementById("lccTeamNameHint").classList.toggle(
+            "hidden",
+            this.value !== "LCC MTs/SMP/Sederajat"
+        );
 
         if (type === "team") {
 
@@ -172,14 +176,6 @@ competitionInputs.forEach(input => {
 
             document
                 .getElementById("teamName")
-                .setAttribute("required", "");
-
-            document
-                .getElementById("leaderName")
-                .setAttribute("required", "");
-
-            document
-                .getElementById("memberCount")
                 .setAttribute("required", "");
 
         } else if (type === "individual") {
@@ -195,14 +191,6 @@ competitionInputs.forEach(input => {
                 .getElementById("teamName")
                 .removeAttribute("required");
 
-            document
-                .getElementById("leaderName")
-                .removeAttribute("required");
-
-            document
-                .getElementById("memberCount")
-                .removeAttribute("required");
-
         } else {
 
             teamFields.classList.add("hidden");
@@ -214,14 +202,6 @@ competitionInputs.forEach(input => {
 
             document
                 .getElementById("teamName")
-                .removeAttribute("required");
-
-            document
-                .getElementById("leaderName")
-                .removeAttribute("required");
-
-            document
-                .getElementById("memberCount")
                 .removeAttribute("required");
 
             document
@@ -256,9 +236,6 @@ competitionInputs.forEach(input => {
                 .getElementById("city")
                 .removeAttribute("required");
 
-            membersContainer.querySelectorAll("input").forEach(input => {
-                input.removeAttribute("required");
-            });
         }
 
         if (type !== "bazaar") {
@@ -273,64 +250,6 @@ competitionInputs.forEach(input => {
         }
 
     });
-
-});
-
-
-// ============================================
-// TEAM MEMBERS
-// ============================================
-
-const memberCount =
-    document.getElementById("memberCount");
-
-const membersContainer =
-    document.getElementById("membersContainer");
-
-
-memberCount.addEventListener("input", function () {
-
-    let count = parseInt(this.value);
-
-    membersContainer.innerHTML = "";
-
-    if (!count || count < 1) {
-        return;
-    }
-
-    if (count > 30) {
-        count = 30;
-        this.value = 30;
-    }
-
-
-    for (let i = 1; i <= count; i++) {
-
-        const box = document.createElement("div");
-
-        box.className = "member-box";
-
-        box.innerHTML = `
-            <h4>Anggota ${i}</h4>
-
-            <div class="form-group">
-
-                <label>
-                    Nama Anggota <span>*</span>
-                </label>
-
-                <input
-                    type="text"
-                    name="member_${i}"
-                    placeholder="Nama lengkap anggota ${i}"
-                    required
-                >
-
-            </div>
-        `;
-
-        membersContainer.appendChild(box);
-    }
 
 });
 
@@ -380,16 +299,10 @@ document
             const team =
                 document.getElementById("teamName").value.trim();
 
-            const leader =
-                document.getElementById("leaderName").value.trim();
-
-            const count =
-                document.getElementById("memberCount").value;
-
-            if (!team || !leader || !count) {
+            if (!team) {
 
                 alert(
-                    "Nama tim, ketua tim, dan jumlah anggota wajib diisi."
+                    "Nama tim wajib diisi."
                 );
 
                 return;
@@ -849,19 +762,13 @@ form.addEventListener("submit", async function (event) {
     const teamName = type === "team"
         ? document.getElementById("teamName").value.trim()
         : "";
-    const leaderName = type === "team"
-        ? document.getElementById("leaderName").value.trim()
-        : "";
-    const members = type === "team"
-        ? Array.from(membersContainer.querySelectorAll("input")).map(input => input.value.trim()).filter(Boolean)
-        : [];
     const bazaarWhatsapp = type === "bazaar"
         ? document.getElementById("bazaarWhatsapp").value.trim()
         : "";
 
     if (
         (type === "individual" && !participantName) ||
-        (type === "team" && (!teamName || !leaderName || !members.length)) ||
+        (type === "team" && !teamName) ||
             (type === "bazaar" && (
             !document.getElementById("brandName").value.trim() ||
             !document.getElementById("productName").value.trim() ||
@@ -887,8 +794,7 @@ form.addEventListener("submit", async function (event) {
         }
 
         const registrationNotes = [
-            document.getElementById("notes").value.trim(),
-            members.length ? `Anggota tim: ${members.join(", ")}` : ""
+            document.getElementById("notes").value.trim()
         ].filter(Boolean).join("\n");
 
         const registrationData = {
@@ -910,11 +816,9 @@ form.addEventListener("submit", async function (event) {
             nama_pembina: type === "bazaar"
                 ? null
                 : document.getElementById("coachName").value.trim(),
-            anggota_tim: members.length ? members.join(", ") : null,
             bukti_transfer: filePath,
             status_pembayaran: "menunggu",
             nama_tim: teamName || null,
-            nama_ketua_tim: leaderName || null,
             nama_brand: type === "bazaar"
                 ? document.getElementById("brandName").value.trim()
                 : null,
@@ -934,15 +838,6 @@ form.addEventListener("submit", async function (event) {
         let insertResult = await supabaseClient
             .from("peserta")
             .insert(registrationData);
-
-        if (insertResult.error?.message.includes("anggota_tim")) {
-            const fallbackData = { ...registrationData };
-            delete fallbackData.anggota_tim;
-
-            insertResult = await supabaseClient
-                .from("peserta")
-                .insert(fallbackData);
-        }
 
         if (insertResult.error) {
             console.error("=== SUPABASE INSERT ERROR ===");

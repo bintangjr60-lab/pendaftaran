@@ -129,6 +129,39 @@ if (isLoginPage) {
         message("Status pembayaran berhasil diperbarui."); await loadParticipants();
     }
 
+    async function deleteParticipant(id, registrationNumber, proofPath) {
+        const registrationLabel = registrationNumber || "ini";
+        if (!window.confirm(`Hapus pendaftaran ${registrationLabel}? Data peserta tidak dapat dipulihkan.`)) return;
+
+        const { data, error } = await supabaseClient
+            .from("peserta")
+            .delete()
+            .eq("id", id)
+            .select("id");
+
+        if (error || !data?.length) {
+            console.error("Gagal menghapus peserta:", error || "Tidak ada baris terhapus; periksa policy DELETE/RLS dan ID peserta.");
+            message(error
+                ? `Gagal menghapus peserta: ${error.message}`
+                : "Supabase tidak menghapus baris. Periksa policy DELETE (RLS) untuk akun admin.");
+            return;
+        }
+
+        let proofCleanupFailed = false;
+        if (proofPath) {
+            const { error: storageError } = await supabaseClient.storage.from("bukti-transfer").remove([proofPath]);
+            if (storageError) {
+                console.error(storageError);
+                proofCleanupFailed = true;
+            }
+        }
+
+        await loadParticipants();
+        message(proofCleanupFailed
+            ? "Data peserta berhasil dihapus, tetapi file bukti transfer gagal dihapus."
+            : "Data peserta berhasil dihapus.");
+    }
+
     function renderTable() {
         const tbody = document.getElementById("participantTableBody"); tbody.innerHTML = "";
         const start = (state.page - 1) * state.perPage;
@@ -144,6 +177,7 @@ if (isLoginPage) {
             const actions = makeCell(row, ""); actions.className = "actions";
             if (participant.id !== undefined && participant.status_pembayaran !== "terverifikasi") { const button = document.createElement("button"); button.className = "button primary"; button.textContent = "✓ Verifikasi"; button.addEventListener("click", () => updateStatus(participant.id, "terverifikasi")); actions.appendChild(button); }
             if (participant.id !== undefined && participant.status_pembayaran !== "ditolak") { const button = document.createElement("button"); button.className = "button secondary"; button.textContent = "✕ Tolak"; button.addEventListener("click", () => updateStatus(participant.id, "ditolak")); actions.appendChild(button); }
+            if (participant.id !== undefined) { const button = document.createElement("button"); button.className = "button danger"; button.textContent = "Hapus"; button.addEventListener("click", () => deleteParticipant(participant.id, participant.nomor_pendaftaran, participant.bukti_transfer)); actions.appendChild(button); }
             tbody.appendChild(row);
         });
         const pages = Math.max(1, Math.ceil(state.filtered.length / state.perPage)); document.getElementById("pageIndicator").textContent = `Halaman ${state.page} dari ${pages}`;
