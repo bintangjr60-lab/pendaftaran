@@ -13,7 +13,7 @@ let currentStep = 1;
 // EDIT LINK DI BAGIAN INI
 // ============================================
 const whatsappGroups = {
-    "Pidato SD/MI/Sederajat": "https://chat.whatsapp.com/D78EPxmTvnLAvdHW1aFAT8?s=cl&p=a&mlu=0",
+    "Pidato SD/MI/Sederajat": ""https://chat.whatsapp.com/BLbASn4GwlRA0cp4PEiV3E?s=cl&p=a&iam=2"",
     "Pidato MTs/SMP/Sederajat": "https://chat.whatsapp.com/GgqsylNb1Fr7EsHyZq7dLn?s=cl&p=a&mlu=0",
     "LCC MTs/SMP/Sederajat": "https://chat.whatsapp.com/DzvPlItKAIO4wlsP9UZGiH?s=cl&p=a&mlu=0",
     "Mewarnai RA/TK": "https://chat.whatsapp.com/GyTHVzULUl53Q6TbnmbTia?s=cl&p=a&mlu=0",
